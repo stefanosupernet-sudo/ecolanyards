@@ -13,7 +13,6 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f7f5; color: #333; line-height: 1.5; }
-
         header {
             background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -51,7 +50,6 @@
             font-size: 0.95rem;
         }
         nav a:hover, nav a.active { color: var(--accent); }
-
         .hero {
             background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
             padding: 55px 20px;
@@ -76,7 +74,6 @@
             color: var(--primary);
         }
         .hero-cta.outline:hover { background: var(--primary); color: white; }
-
         .section-title {
             text-align: center;
             padding: 45px 20px 18px;
@@ -89,7 +86,6 @@
             margin-bottom: 10px;
             padding: 0 20px;
         }
-
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -129,9 +125,43 @@
         }
         .card-body h3 {
             font-size: 1rem;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: #222;
             min-height: 44px;
+        }
+        .qty-badge {
+            display: block;
+            background: #fff3e0;
+            color: #e65100;
+            border: 2px solid #ef6c00;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin: 0 0 12px 0;
+            font-size: 0.92rem;
+            font-weight: 800;
+            line-height: 1.3;
+            text-align: center;
+        }
+        .qty-banner {
+            display: block;
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            color: #bf360c;
+            border: 2px solid #ef6c00;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 16px 0;
+            font-size: 1.15rem;
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.35;
+            box-shadow: 0 2px 8px rgba(239, 108, 0, 0.2);
+        }
+        .qty-banner small {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e65100;
+            margin-top: 4px;
         }
         .btn {
             background: var(--accent);
@@ -146,7 +176,6 @@
             transition: background 0.2s;
         }
         .btn:hover { background: var(--primary); }
-
         footer {
             background: var(--dark);
             color: white;
@@ -157,7 +186,6 @@
         footer a:hover { text-decoration: underline; }
         .footer-contacts { margin: 15px 0; font-size: 1.05rem; }
         .footer-contacts a { margin: 0 12px; font-weight: 600; }
-
         .contact-fab {
             position: fixed;
             bottom: 25px;
@@ -218,7 +246,6 @@
         .contact-option .icon-circle svg { width: 22px; height: 22px; fill: white; }
         .contact-option.phone .icon-circle { background: #1976d2; }
         .contact-option.whatsapp .icon-circle { background: #25D366; }
-
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -297,10 +324,8 @@
             margin-top: 6px;
             color: #333;
         }
-
         .page-section { display: none; }
         .page-section.active { display: block; }
-
         @media (max-width: 600px) {
             .form-grid { grid-template-columns: 1fr; }
             .form-grid textarea, .form-grid .full { grid-column: span 1; }
@@ -311,7 +336,6 @@
     </style>
 </head>
 <body>
-
 <header>
     <div class="header-top">
         <div>
@@ -333,7 +357,6 @@
         </nav>
     </div>
 </header>
-
 <div id="page-home" class="page-section active">
     <section class="hero">
         <h1>Lanyards Ecologici 100% PET Riciclato</h1>
@@ -341,12 +364,10 @@
         <a href="#lanyards-grid" class="hero-cta">Scopri i Lanyards</a>
         <a href="#" class="hero-cta outline" onclick="showPage('badge'); return false;">Vai ai Badge</a>
     </section>
-
     <h2 class="section-title">Lanyards in evidenza</h2>
     <p class="section-subtitle">10 prodotti selezionati – clicca su immagine o “Dettagli” per la scheda prodotto</p>
     <div class="products-grid" id="lanyards-grid"></div>
 </div>
-
 <div id="page-badge" class="page-section">
     <section class="hero" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb);">
         <h1 style="color:#0d47a1;">Portabadge e Badge Personalizzati</h1>
@@ -354,12 +375,10 @@
         <a href="#badge-grid" class="hero-cta" style="background:#1976d2;">Scopri i Badge</a>
         <a href="#" class="hero-cta outline" style="border-color:#1976d2;color:#1976d2;" onclick="showPage('home'); return false;">Torna ai Lanyards</a>
     </section>
-
     <h2 class="section-title" style="color:#0d47a1;">I nostri Badge</h2>
     <p class="section-subtitle">10 modelli presi dal catalogo EcoLanyards – clicca per dettagli e preventivo</p>
     <div class="products-grid" id="badge-grid"></div>
 </div>
-
 <footer>
     <img src="https://ecolanyards.it/images/ecolanyards_logo.png" alt="EcoLanyards" style="height:45px; filter: brightness(0) invert(1); margin-bottom:15px;">
     <div class="footer-contacts">
@@ -370,7 +389,6 @@
     <p style="margin-top:12px; opacity:0.85;">© 2026 EcoLanyards – Prodotti Made in Italy dal 1999<br>
     Via Traversa del Grillo snc – 00060 Capena (RM)</p>
 </footer>
-
 <div class="contact-fab" id="contactFab">
     <div class="contact-fab-options">
         <a href="tel:+393358109363" class="contact-option phone" title="Chiama 335 810 9363">
@@ -390,7 +408,6 @@
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM12 3v10l3-3h6V3h-9z"/></svg>
     </button>
 </div>
-
 <script src="app.js"></script>
 </body>
 </html>
