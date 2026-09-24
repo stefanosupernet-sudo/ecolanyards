@@ -1,18 +1,18 @@
-/* EcoLanyards app - forms, GTM events, cookie consent */
+/* EcoLanyards app - multi-page SEO */
 const lanyards = [
-    { id: 'L1', title: "Nastro ecologico in PET Riciclato (singolo)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141237-2025-70199-NDP.webp", desc: "Nastro ecologico in PET riciclato da 20 mm, stampa sublimazione su 2 lati fino a 6 colori." },
-    { id: 'L2', title: "Nastro ecologico in PET Riciclato (doppio)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141206-2025-60463-NDP.webp", desc: "Versione doppia più resistente. Stampa sublimazione full color su entrambi i lati." },
+    { id: 'L1', title: "Nastro ecologico in PET Riciclato (singolo)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141237-2025-70199-NDP.webp", desc: "Nastro ecologico in PET riciclato da 20 mm, stampa sublimazione su 2 lati fino a 6 colori. Ideale per fiere e congressi." },
+    { id: 'L2', title: "Nastro ecologico in PET Riciclato (doppio)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141206-2025-60463-NDP.webp", desc: "Versione doppia più resistente. Stampa full color su entrambi i lati." },
     { id: 'L3', title: "Nastro Raso singolo 20mm", img: "https://ecolanyards.it/writable/mod_articoli/20251126111120-2025-41498-NDP.webp", desc: "Nastro in raso di alta qualità da 20 mm." },
     { id: 'L4', title: "Nastro Raso doppio 20mm", img: "https://ecolanyards.it/writable/mod_articoli/20251126121128-2025-52590-NDP.webp", desc: "Nastro raso doppio 20 mm." },
     { id: 'L5', title: "Nastro Poliestere singolo 15mm", img: "https://ecolanyards.it/writable/mod_articoli/20251209141246-2025-68845-NDP.webp", desc: "Nastro poliestere 15 mm." },
     { id: 'L6', title: "Nastro Poliestere doppio 20mm", img: "https://ecolanyards.it/writable/mod_articoli/20260108180100-2026-70058-NDP.webp", desc: "Nastro poliestere doppio 20 mm." },
     { id: 'L7', title: "Nastro Raso singolo 15mm", img: "https://ecolanyards.it/writable/mod_articoli/20251209141244-2025-14313-NDP.webp", desc: "Nastro raso 15 mm." },
-    { id: 'L8', title: "Lanyards PET – Promo Fiera", img: "https://ecolanyards.it/images/slider/001-pet-fiera.png", desc: "Lanyards in PET riciclato in promozione." },
+    { id: 'L8', title: "Lanyards PET – Promo Fiera", img: "https://ecolanyards.it/images/slider/001-pet-fiera.png", desc: "Lanyards in PET riciclato in promozione per fiere." },
     { id: 'L9', title: "Lanyards Personalizzati Premium", img: "https://ecolanyards.it/images/slider/promo.jpg", desc: "Soluzione premium per aziende e eventi." },
     { id: 'L10', title: "Nastro Tubolare Ecologico", img: "https://ecolanyards.it/writable/mod_articoli/20120516110511-2012-35904-NDP.jpg", desc: "Nastro tubolare 10 mm serigrafato." }
 ];
 const badges = [
-    { id: 'B1', title: "Badge Pelle / Similpelle Verticale", img: "https://ecolanyards.it/writable/mod_articoli/20260109130127-2026-18273-NDP.webp", desc: "Badge in pelle/similpelle verticale." },
+    { id: 'B1', title: "Badge Pelle / Similpelle Verticale", img: "https://ecolanyards.it/writable/mod_articoli/20260109130127-2026-18273-NDP.webp", desc: "Badge in pelle/similpelle verticale per congressi." },
     { id: 'B2', title: "Badge Similpelle Orizzontale", img: "https://ecolanyards.it/writable/mod_articoli/20260109130129-2026-75647-NDP.webp", desc: "Badge in similpelle." },
     { id: 'B3', title: "Badge PVC 11x14 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171104-2018-66881-NDP.jpg", desc: "Portabadge PVC 11x14 cm." },
     { id: 'B4', title: "Badge PVC 10.5x7.5 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171127-2018-51561-NDP.jpg", desc: "Badge PVC 10.5x7.5 cm." },
@@ -25,12 +25,15 @@ const badges = [
 ];
 function renderGrid(containerId, products) {
     const grid = document.getElementById(containerId);
+    if (!grid) return;
+    const limit = parseInt(grid.getAttribute('data-limit') || '0', 10);
+    const list = limit > 0 ? products.slice(0, limit) : products;
     grid.innerHTML = '';
-    products.forEach(p => {
+    list.forEach(p => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.onclick = () => openProduct(p);
-        card.innerHTML = `<img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'"><div class="card-body"><h3>${p.title}</h3><span class="qty-badge">Quantità minima: da 50-100 pezzi</span><button class="btn">Dettagli</button></div>`;
+        card.innerHTML = `<img src="${p.img}" alt="${p.title} – laccetti e portabadge per fiere" loading="lazy" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'"><div class="card-body"><h3>${p.title}</h3><span class="qty-badge">Quantità minima: da 50-100 pezzi</span><button class="btn">Dettagli</button></div>`;
         card.querySelector('button').onclick = (e) => { e.stopPropagation(); openProduct(p); };
         grid.appendChild(card);
     });
@@ -38,11 +41,9 @@ function renderGrid(containerId, products) {
 renderGrid('lanyards-grid', lanyards);
 renderGrid('badge-grid', badges);
 function showPage(page) {
-    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-    document.getElementById('page-' + page).classList.add('active');
-    document.getElementById('nav-home').classList.toggle('active', page === 'home');
-    document.getElementById('nav-badge').classList.toggle('active', page === 'badge');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (page === 'badge') { window.location.href = 'portabadge.html'; return; }
+    if (page === 'home' || page === 'lanyards') { window.location.href = 'laccetti.html'; return; }
+    window.location.href = 'index.html';
 }
 function openProduct(prod) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
@@ -55,7 +56,7 @@ function openProduct(prod) {
         <div class="modal-content">
             <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
             <h2 style="color:var(--dark); margin-bottom:5px;">${prod.title}</h2>
-            <img class="main-img" src="${prod.img}" alt="${prod.title}" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'">
+            <img class="main-img" src="${prod.img}" alt="${prod.title} – EcoLanyards" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'">
             <p style="margin:15px 0; font-size:1.05rem;">${prod.desc}</p>
             <div class="qty-banner">Quantità minima: da 50-100 pezzi<small>Condizione principale per il preventivo • Consegna 3-7 giorni lavorativi</small></div>
             <p style="color:#555; font-size:0.95rem;"><strong>Materiale:</strong> PET riciclato / Raso / Poliestere / PVC / Similpelle<br><strong>Personalizzazione:</strong> Sublimazione o serigrafia fino a 6 colori</p>
