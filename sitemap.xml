@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ecolanyards.it/</loc>
+    <loc>https://stefanosupernet-sudo.github.io/ecolanyards/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ecolanyards.it/#lanyards</loc>
+    <loc>https://stefanosupernet-sudo.github.io/ecolanyards/laccetti.html</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://ecolanyards.it/#badge</loc>
+    <loc>https://stefanosupernet-sudo.github.io/ecolanyards/portabadge.html</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
 </urlset>

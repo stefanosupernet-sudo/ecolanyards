@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ecolanyards.it/sitemap.xml
+Sitemap: https://stefanosupernet-sudo.github.io/ecolanyards/sitemap.xml

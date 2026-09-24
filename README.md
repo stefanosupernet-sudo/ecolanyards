@@ -1,30 +1,23 @@
-# EcoLanyards – Sito preventivi SEO
+# EcoLanyards (GitHub Pages)
 
-Sito statico per **laccetti (lanyards)** e **portabadge** per fiere, congressi ed eventi.
+Sito live: **https://stefanosupernet-sudo.github.io/ecolanyards/**
 
-## SEO incluso
-- Title e meta description orientati a: *laccetti per fiere*, *portabadge*, *congressi*, *eventi*
-- Open Graph / Twitter Card
-- JSON-LD (Organization, WebSite, WebPage, FAQPage)
-- Contenuti testuali e FAQ on-page
-- `robots.txt` + `sitemap.xml`
-- Titoli pagina dinamici (Laccetti / Portabadge)
+## Pagine SEO
+| URL | Focus |
+|-----|--------|
+| `/` | Home – laccetti e portabadge |
+| `/laccetti.html` | Laccetti / lanyards per fiere e congressi |
+| `/portabadge.html` | Portabadge personalizzati |
 
-## File principali
-- `index.html` – pagina completa
-- `app.js` – prodotti, form, eventi GTM, cookie
-- `robots.txt` / `sitemap.xml`
+## File
+- `index.html`, `laccetti.html`, `portabadge.html`
+- `app.js` – prodotti, form, GTM events, cookie
+- `robots.txt`, `sitemap.xml`
 
-## Keyword target
-- laccetti per fiere
-- portabadge personalizzati
-- lanyards congressi
-- laccetti eventi
-- badge personalizzati Made in Italy
+## Search Console
+1. Aggiungi proprietà: `https://stefanosupernet-sudo.github.io/ecolanyards/`
+2. Invia sitemap: `https://stefanosupernet-sudo.github.io/ecolanyards/sitemap.xml`
 
-## GTM
-Container: `GTM-K78FC5JR`  
-Eventi: `click_telefono`, `click_whatsapp`, `invio_form_contatti`, `cookie_consent_update`
-
-## Form
-Invio a `commerciale@ecolanyards.it` via FormSubmit (dopo attivazione email).
+## Form & GTM
+- Form → `commerciale@ecolanyards.it` (FormSubmit)
+- GTM: `GTM-K78FC5JR`
