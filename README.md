@@ -1,32 +1,30 @@
-# EcoLanyards – Sito preventivi
+# EcoLanyards – Sito preventivi SEO
 
-Repository del sito statico EcoLanyards (lanyards + badge).
+Sito statico per **laccetti (lanyards)** e **portabadge** per fiere, congressi ed eventi.
 
-## Funzionalità
-- 10 Lanyards + 10 Badge con scheda prodotto e form preventivo
-- Form → `commerciale@ecolanyards.it` (FormSubmit)
-- GTM: `GTM-K78FC5JR`
-- Consent Mode v2 (default denied UE) + banner cookie GDPR
-- Eventi conversione: `click_telefono`, `click_whatsapp`, `invio_form_contatti`
-- Quantità minima evidenziata (50-100 pezzi)
-- FAB Chiama / WhatsApp (335 810 9363)
+## SEO incluso
+- Title e meta description orientati a: *laccetti per fiere*, *portabadge*, *congressi*, *eventi*
+- Open Graph / Twitter Card
+- JSON-LD (Organization, WebSite, WebPage, FAQPage)
+- Contenuti testuali e FAQ on-page
+- `robots.txt` + `sitemap.xml`
+- Titoli pagina dinamici (Laccetti / Portabadge)
 
-## Deploy
-Usa il file **`index.html`** completo (standalone). Abilita GitHub Pages sulla branch `main` se vuoi pubblicarlo.
+## File principali
+- `index.html` – pagina completa
+- `app.js` – prodotti, form, eventi GTM, cookie
+- `robots.txt` / `sitemap.xml`
 
-## GTM – attivatori eventi personalizzati
-| Evento | Uso |
-|--------|-----|
-| `click_telefono` | Click link telefono |
-| `click_whatsapp` | Click WhatsApp |
-| `invio_form_contatti` | Form inviato con successo |
-| `cookie_consent_update` | Preferenze cookie salvate |
+## Keyword target
+- laccetti per fiere
+- portabadge personalizzati
+- lanyards congressi
+- laccetti eventi
+- badge personalizzati Made in Italy
 
-In GA4 marca i primi 3 come conversioni. Nei tag GA4/Ads imposta i requisiti di consenso (`analytics_storage` / `ad_storage`).
+## GTM
+Container: `GTM-K78FC5JR`  
+Eventi: `click_telefono`, `click_whatsapp`, `invio_form_contatti`, `cookie_consent_update`
 
-## Cookie / Consent Mode v2
-Prima di GTM sono impostati i default:
-- analytics e ads: **denied**
-- functionality e security: **granted**
-
-Il banner permette Accetta tutto / Rifiuta / Personalizza e aggiorna il consenso con `gtag('consent','update',...)`.
+## Form
+Invio a `commerciale@ecolanyards.it` via FormSubmit (dopo attivazione email).
