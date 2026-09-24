@@ -1,4 +1,4 @@
-/* EcoLanyards app - multi-page SEO */
+/* EcoLanyards app - multi-page SEO + WhatsApp CTA */
 const lanyards = [
     { id: 'L1', title: "Nastro ecologico in PET Riciclato (singolo)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141237-2025-70199-NDP.webp", desc: "Nastro ecologico in PET riciclato da 20 mm, stampa sublimazione su 2 lati fino a 6 colori. Ideale per fiere e congressi." },
     { id: 'L2', title: "Nastro ecologico in PET Riciclato (doppio)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141206-2025-60463-NDP.webp", desc: "Versione doppia più resistente. Stampa full color su entrambi i lati." },
@@ -33,7 +33,7 @@ function renderGrid(containerId, products) {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.onclick = () => openProduct(p);
-        card.innerHTML = `<img src="${p.img}" alt="${p.title} – laccetti e portabadge per fiere" loading="lazy" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'"><div class="card-body"><h3>${p.title}</h3><span class="qty-badge">Quantità minima: da 50-100 pezzi</span><button class="btn">Dettagli</button></div>`;
+        card.innerHTML = `<img src="${p.img}" alt="${p.title} – laccetti e portabadge per fiere" loading="lazy" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'"><div class="card-body"><h3>${p.title}</h3><span class="qty-badge">Quantità minima: da 50-100 pezzi</span><p class="wa-cta-card"><a href="https://wa.me/393358109363" class="track-whatsapp" target="_blank" rel="noopener" onclick="event.stopPropagation()"><strong>Whatsapp</strong> per grafiche e preventivi immediati</a></p><button class="btn">Dettagli</button></div>`;
         card.querySelector('button').onclick = (e) => { e.stopPropagation(); openProduct(p); };
         grid.appendChild(card);
     });
@@ -59,6 +59,7 @@ function openProduct(prod) {
             <img class="main-img" src="${prod.img}" alt="${prod.title} – EcoLanyards" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'">
             <p style="margin:15px 0; font-size:1.05rem;">${prod.desc}</p>
             <div class="qty-banner">Quantità minima: da 50-100 pezzi<small>Condizione principale per il preventivo • Consegna 3-7 giorni lavorativi</small></div>
+            <p class="wa-cta-modal"><a href="https://wa.me/393358109363" class="track-whatsapp" target="_blank" rel="noopener"><strong>Whatsapp</strong> per grafiche e preventivi immediati</a></p>
             <p style="color:#555; font-size:0.95rem;"><strong>Materiale:</strong> PET riciclato / Raso / Poliestere / PVC / Similpelle<br><strong>Personalizzazione:</strong> Sublimazione o serigrafia fino a 6 colori</p>
             <h3 style="margin:25px 0 10px; color:var(--dark);">Richiedi Informazioni</h3>
             <form id="contactForm" class="form-grid" action="https://formsubmit.co/commerciale@ecolanyards.it" method="POST">
