@@ -1,1 +1,249 @@
-PLACEHOLDER
+/* EcoLanyards app - multi-page SEO + WhatsApp CTA */
+const lanyards = [
+    { id: 'L1', title: "Nastro ecologico in PET Riciclato (singolo)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141237-2025-70199-NDP.webp", desc: "Nastro ecologico in PET riciclato da 20 mm, stampa sublimazione su 2 lati fino a 6 colori. Ideale per fiere e congressi." },
+    { id: 'L2', title: "Nastro ecologico in PET Riciclato (doppio)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141206-2025-60463-NDP.webp", desc: "Versione doppia più resistente. Stampa full color su entrambi i lati." },
+    { id: 'L3', title: "Nastro Raso singolo 20mm", img: "https://ecolanyards.it/writable/mod_articoli/20251126111120-2025-41498-NDP.webp", desc: "Nastro in raso di alta qualità da 20 mm." },
+    { id: 'L4', title: "Nastro Raso doppio 20mm", img: "https://ecolanyards.it/writable/mod_articoli/20251126121128-2025-52590-NDP.webp", desc: "Nastro raso doppio 20 mm." },
+    { id: 'L5', title: "Nastro Poliestere singolo 15mm", img: "https://ecolanyards.it/writable/mod_articoli/20251209141246-2025-68845-NDP.webp", desc: "Nastro poliestere 15 mm." },
+    { id: 'L6', title: "Nastro Poliestere doppio 20mm", img: "https://ecolanyards.it/writable/mod_articoli/20260108180100-2026-70058-NDP.webp", desc: "Nastro poliestere doppio 20 mm." },
+    { id: 'L7', title: "Nastro Raso singolo 15mm", img: "https://ecolanyards.it/writable/mod_articoli/20251209141244-2025-14313-NDP.webp", desc: "Nastro raso 15 mm." },
+    { id: 'L8', title: "Lanyards PET – Promo Fiera", img: "https://ecolanyards.it/images/slider/001-pet-fiera.png", desc: "Lanyards in PET riciclato in promozione per fiere." },
+    { id: 'L9', title: "Lanyards Personalizzati Premium", img: "https://ecolanyards.it/images/slider/promo.jpg", desc: "Soluzione premium per aziende e eventi." },
+    { id: 'L10', title: "Nastro Tubolare Ecologico", img: "https://ecolanyards.it/writable/mod_articoli/20120516110511-2012-35904-NDP.jpg", desc: "Nastro tubolare 10 mm serigrafato." }
+];
+const badges = [
+    { id: 'B1', title: "Badge Pelle / Similpelle Verticale", img: "https://ecolanyards.it/writable/mod_articoli/20260109130127-2026-18273-NDP.webp", desc: "Badge in pelle/similpelle verticale per congressi." },
+    { id: 'B2', title: "Badge Similpelle Orizzontale", img: "https://ecolanyards.it/writable/mod_articoli/20260109130129-2026-75647-NDP.webp", desc: "Badge in similpelle." },
+    { id: 'B3', title: "Badge PVC 11x14 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171104-2018-66881-NDP.jpg", desc: "Portabadge PVC 11x14 cm." },
+    { id: 'B4', title: "Badge PVC 10.5x7.5 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171127-2018-51561-NDP.jpg", desc: "Badge PVC 10.5x7.5 cm." },
+    { id: 'B5', title: "Badge PVC 10x15 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171119-2018-89813-NDP.jpg", desc: "Portabadge PVC 10x15 cm." },
+    { id: 'B6', title: "Badge PVC 10x7.5 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171103-2018-43689-NDP.jpg", desc: "Badge PVC 10x7.5 cm." },
+    { id: 'B7', title: "Badge PVC 8x10 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171156-2018-83283-NDP.jpg", desc: "Portabadge PVC 8x10 cm." },
+    { id: 'B8', title: "Badge PVC 9x6 Morbido", img: "https://ecolanyards.it/writable/mod_articoli/20181112171119-2018-56417-NDP.jpg", desc: "Badge PVC 9x6 cm." },
+    { id: 'B9', title: "Badge Plastica Colorata Rigida", img: "https://ecolanyards.it/writable/mod_articoli/20130326140314-2013-81130-NDP.jpg", desc: "Badge plastica rigida colorata." },
+    { id: 'B10', title: "Badge Plastica Rigida Trasparente", img: "https://ecolanyards.it/writable/mod_articoli/20130326140307-2013-25729-NDP.jpg", desc: "Badge plastica rigida trasparente." }
+];
+function renderGrid(containerId, products) {
+    const grid = document.getElementById(containerId);
+    if (!grid) return;
+    const limit = parseInt(grid.getAttribute('data-limit') || '0', 10);
+    const list = limit > 0 ? products.slice(0, limit) : products;
+    grid.innerHTML = '';
+    list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openProduct(p);
+        card.innerHTML = `<img src="${p.img}" alt="${p.title} – laccetti e portabadge per fiere" loading="lazy" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'"><div class="card-body"><h3>${p.title}</h3><span class="qty-badge">Quantità minima: da 50-100 pezzi</span><p class="wa-cta-card"><a href="https://wa.me/393358109363" class="track-whatsapp" target="_blank" rel="noopener" onclick="event.stopPropagation()"><strong>Whatsapp</strong> per grafiche e preventivi immediati</a></p><button class="btn">Dettagli</button></div>`;
+        card.querySelector('button').onclick = (e) => { e.stopPropagation(); openProduct(p); };
+        grid.appendChild(card);
+    });
+}
+renderGrid('lanyards-grid', lanyards);
+renderGrid('badge-grid', badges);
+function showPage(page) {
+    if (page === 'badge') { window.location.href = 'portabadge.html'; return; }
+    if (page === 'home' || page === 'lanyards') { window.location.href = 'laccetti.html'; return; }
+    window.location.href = 'index.html';
+}
+function openProduct(prod) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    const sameCat = (prod.id.startsWith('L') ? lanyards : badges).filter(p => p.id !== prod.id);
+    const otherCat = (prod.id.startsWith('L') ? badges : lanyards).slice(0, 2);
+    const related = [...sameCat.slice(0, 4), ...otherCat].slice(0, 6);
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+            <h2 style="color:var(--dark); margin-bottom:5px;">${prod.title}</h2>
+            <img class="main-img" src="${prod.img}" alt="${prod.title} – EcoLanyards" onerror="this.src='https://ecolanyards.it/images/slider/001-pet-fiera.png'">
+            <p style="margin:15px 0; font-size:1.05rem;">${prod.desc}</p>
+            <div class="qty-banner">Quantità minima: da 50-100 pezzi<small>Condizione principale per il preventivo • Consegna 3-7 giorni lavorativi</small></div>
+            <p class="wa-cta-modal"><a href="https://wa.me/393358109363" class="track-whatsapp" target="_blank" rel="noopener"><strong>Whatsapp</strong> per grafiche e preventivi immediati</a></p>
+            <p style="color:#555; font-size:0.95rem;"><strong>Materiale:</strong> PET riciclato / Raso / Poliestere / PVC / Similpelle<br><strong>Personalizzazione:</strong> Sublimazione o serigrafia fino a 6 colori</p>
+            <h3 style="margin:25px 0 10px; color:var(--dark);">Richiedi Informazioni</h3>
+            <form id="contactForm" class="form-grid" action="https://formsubmit.co/commerciale@ecolanyards.it" method="POST">
+                <input type="hidden" name="_subject" value="Richiesta informazioni: ${prod.title}">
+                <input type="hidden" name="prodotto" value="${prod.title}">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="text" name="_honey" style="display:none">
+                <input type="text" name="nome" placeholder="Nome *" required>
+                <input type="text" name="cognome" placeholder="Cognome *" required>
+                <input type="text" name="azienda" placeholder="Azienda">
+                <input type="tel" name="telefono" placeholder="Telefono *" required>
+                <input type="email" name="email" placeholder="Email *" required class="full">
+                <input type="number" name="quantita" placeholder="Quantità *" min="50" required>
+                <textarea name="descrizione" rows="4" placeholder="Descrizione / Note" class="full"></textarea>
+                <button type="submit" class="btn full" style="padding:14px; font-size:1.05rem;">Richiedi Informazioni</button>
+            </form>
+            <h3 style="margin:35px 0 10px; color:var(--dark);">Prodotti correlati</h3>
+            <div class="related" id="related-container"></div>
+        </div>`;
+    const relatedContainer = overlay.querySelector('#related-container');
+    related.forEach(r => {
+        const item = document.createElement('div');
+        item.className = 'related-item';
+        item.innerHTML = `<img src="${r.img}" alt="${r.title}" loading="lazy"><p>${r.title}</p>`;
+        item.onclick = () => openProduct(r);
+        relatedContainer.appendChild(item);
+    });
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    overlay.querySelector('#contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Invio in corso...';
+        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+        .then(function(res) {
+            if (res.ok) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ event: 'invio_form_contatti', form_name: 'richiedi_informazioni', product_name: (form.querySelector('[name="prodotto"]') || {}).value || '', event_category: 'conversion', event_label: 'form_contatti' });
+                alert('✅ Richiesta inviata con successo!\nArriverà a commerciale@ecolanyards.it.\nTi contatteremo al più presto al 335 810 9363.');
+                overlay.remove();
+            } else { throw new Error('Errore invio'); }
+        })
+        .catch(function() { form.submit(); })
+        .finally(function() { btn.disabled = false; btn.textContent = originalText; });
+    });
+}
+(function() {
+    const fab = document.getElementById('contactFab');
+    const btn = document.getElementById('contactFabBtn');
+    if (!fab || !btn) return;
+    btn.addEventListener('click', function(e) { e.stopPropagation(); fab.classList.toggle('open'); });
+    document.addEventListener('click', function(e) { if (!fab.contains(e.target)) fab.classList.remove('open'); });
+})();
+(function() {
+  window.dataLayer = window.dataLayer || [];
+  function pushEvent(name, extra) { window.dataLayer.push(Object.assign({ event: name }, extra || {})); }
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="tel:"], .track-phone');
+    if (!a) return;
+    pushEvent('click_telefono', { event_category: 'contact', event_label: 'telefono', phone_number: '3358109363' });
+  });
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href*="wa.me"], .track-whatsapp');
+    if (!a) return;
+    e.preventDefault();
+    e.stopPropagation();
+    pushEvent('click_whatsapp', { event_category: 'contact', event_label: 'whatsapp_apri_chat', phone_number: '3358109363' });
+    if (typeof window.openWaChat === 'function') window.openWaChat();
+  });
+})();
+(function() {
+  var STORAGE_KEY = 'ecolanyards_cookie_consent_v2';
+  function gtag(){ window.dataLayer = window.dataLayer || []; window.dataLayer.push(arguments); }
+  function applyConsent(prefs) {
+    var analytics = prefs.analytics ? 'granted' : 'denied';
+    var marketing = prefs.marketing ? 'granted' : 'denied';
+    gtag('consent', 'update', { ad_storage: marketing, ad_user_data: marketing, ad_personalization: marketing, analytics_storage: analytics, functionality_storage: 'granted', personalization_storage: (prefs.analytics || prefs.marketing) ? 'granted' : 'denied', security_storage: 'granted' });
+    window.dataLayer.push({ event: 'cookie_consent_update', consent_analytics: !!prefs.analytics, consent_marketing: !!prefs.marketing });
+  }
+  function savePrefs(prefs) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ analytics: !!prefs.analytics, marketing: !!prefs.marketing, ts: Date.now() })); } catch(e){} }
+  function loadPrefs() { try { var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch(e){ return null; } }
+  function hideBanner() { var b = document.getElementById('cookieBanner'); if (b) b.classList.remove('show'); }
+  function showBanner() { var b = document.getElementById('cookieBanner'); if (b) b.classList.add('show'); }
+  function onAcceptAll() { var p = { analytics: true, marketing: true }; applyConsent(p); savePrefs(p); hideBanner(); }
+  function onReject() { var p = { analytics: false, marketing: false }; applyConsent(p); savePrefs(p); hideBanner(); }
+  function onSavePrefs() { var p = { analytics: !!(document.getElementById('cAnalytics') || {}).checked, marketing: !!(document.getElementById('cMarketing') || {}).checked }; applyConsent(p); savePrefs(p); hideBanner(); }
+  function init() {
+    var saved = loadPrefs();
+    if (saved) { applyConsent(saved); hideBanner(); } else { showBanner(); }
+    var acceptBtn = document.getElementById('cookieAccept');
+    var rejectBtn = document.getElementById('cookieReject');
+    var prefsBtn = document.getElementById('cookiePrefsBtn');
+    var saveBtn = document.getElementById('cookieSavePrefs');
+    var panel = document.getElementById('cookiePrefsPanel');
+    if (acceptBtn) acceptBtn.addEventListener('click', onAcceptAll);
+    if (rejectBtn) rejectBtn.addEventListener('click', onReject);
+    if (saveBtn) saveBtn.addEventListener('click', onSavePrefs);
+    if (prefsBtn && panel) prefsBtn.addEventListener('click', function(){ panel.classList.toggle('open'); });
+    var settingsBtn = document.getElementById('cookieSettingsBtn');
+    if (settingsBtn) {
+      settingsBtn.addEventListener('click', function() {
+        var saved2 = loadPrefs();
+        if (saved2) {
+          var ca = document.getElementById('cAnalytics');
+          var cm = document.getElementById('cMarketing');
+          if (ca) ca.checked = !!saved2.analytics;
+          if (cm) cm.checked = !!saved2.marketing;
+        }
+        showBanner();
+        var p = document.getElementById('cookiePrefsPanel');
+        if (p) p.classList.add('open');
+      });
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+/* WhatsApp Chat Widget on-site */
+(function() {
+  var WA_NUMBER = '393358109363';
+  var widgetReady = false;
+  function ensureStyles() {
+    if (document.getElementById('waChatStyles')) return;
+    var css = document.createElement('style');
+    css.id = 'waChatStyles';
+    css.textContent = '#waChatWidget{position:fixed;bottom:90px;right:20px;z-index:10001;width:340px;max-width:calc(100vw - 24px);background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.25);display:none;flex-direction:column;overflow:hidden;font-family:system-ui,sans-serif}#waChatWidget.open{display:flex}#waChatHeader{background:#075E54;color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}#waChatHeader .wa-title{font-weight:700;font-size:1rem}#waChatHeader .wa-sub{font-size:.8rem;opacity:.9}#waChatClose{background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}#waChatBody{padding:14px;background:#ece5dd;min-height:160px;max-height:280px;overflow-y:auto}.wa-bubble{background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:.9rem;line-height:1.4;box-shadow:0 1px 2px rgba(0,0,0,.08);max-width:90%}.wa-bubble.user{background:#dcf8c6;margin-left:auto}#waChatFooter{padding:10px;background:#f0f0f0;display:flex;gap:8px;align-items:flex-end}#waChatInput{flex:1;border:1px solid #ccc;border-radius:20px;padding:10px 14px;font-size:.95rem;font-family:inherit;resize:none;min-height:42px;max-height:100px}#waChatSend{background:#25D366;color:#fff;border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.2rem;flex-shrink:0;font-weight:700}#waChatSend:disabled{opacity:.5;cursor:not-allowed}@media(max-width:480px){#waChatWidget{bottom:80px;right:10px;left:10px;width:auto}}';
+    document.head.appendChild(css);
+  }
+  function ensureWidget() {
+    if (widgetReady) return document.getElementById('waChatWidget');
+    ensureStyles();
+    var el = document.createElement('div');
+    el.id = 'waChatWidget';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-label', 'Chat WhatsApp EcoLanyards');
+    el.innerHTML = '<div id="waChatHeader"><div><div class="wa-title">EcoLanyards WhatsApp</div><div class="wa-sub">Grafiche e preventivi immediati</div></div><button type="button" id="waChatClose" aria-label="Chiudi">×</button></div><div id="waChatBody"><div class="wa-bubble">Ciao! Scrivi qui cosa ti serve (modello, quantità, grafica) e invia: si apre WhatsApp con il messaggio pronto.</div></div><div id="waChatFooter"><textarea id="waChatInput" rows="1" placeholder="Scrivi il tuo messaggio..." maxlength="1000"></textarea><button type="button" id="waChatSend" title="Invia su WhatsApp">➤</button></div>';
+    document.body.appendChild(el);
+    document.getElementById('waChatClose').addEventListener('click', closeWaChat);
+    document.getElementById('waChatSend').addEventListener('click', sendWaMessage);
+    document.getElementById('waChatInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendWaMessage(); }
+    });
+    widgetReady = true;
+    return el;
+  }
+  function openWaChat() {
+    var w = ensureWidget();
+    w.classList.add('open');
+    var input = document.getElementById('waChatInput');
+    if (input) setTimeout(function(){ input.focus(); }, 100);
+  }
+  function closeWaChat() {
+    var w = document.getElementById('waChatWidget');
+    if (w) w.classList.remove('open');
+  }
+  function sendWaMessage() {
+    var input = document.getElementById('waChatInput');
+    if (!input) return;
+    var text = (input.value || '').trim();
+    if (!text) { input.focus(); input.placeholder = 'Scrivi almeno una parola prima di inviare...'; return; }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'whatsapp_messaggio_inviato',
+      event_category: 'conversion',
+      event_label: 'whatsapp_prima_interazione',
+      phone_number: '3358109363',
+      message_length: text.length,
+      has_message: true
+    });
+    var body = document.getElementById('waChatBody');
+    if (body) {
+      var bubble = document.createElement('div');
+      bubble.className = 'wa-bubble user';
+      bubble.textContent = text;
+      body.appendChild(bubble);
+      body.scrollTop = body.scrollHeight;
+    }
+    window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    input.value = '';
+  }
+  window.openWaChat = openWaChat;
+  window.closeWaChat = closeWaChat;
+})();
