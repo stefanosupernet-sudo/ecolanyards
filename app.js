@@ -1,4 +1,4 @@
-/* EcoLanyards app - multi-page SEO + WhatsApp CTA */
+/* EcoLanyards app - multi-page SEO + WhatsApp CTA + cookie modal */
 const lanyards = [
     { id: 'L1', title: "Nastro ecologico in PET Riciclato (singolo)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141237-2025-70199-NDP.webp", desc: "Nastro ecologico in PET riciclato da 20 mm, stampa sublimazione su 2 lati fino a 6 colori. Ideale per fiere e congressi." },
     { id: 'L2', title: "Nastro ecologico in PET Riciclato (doppio)", img: "https://ecolanyards.it/writable/mod_articoli/20251209141206-2025-60463-NDP.webp", desc: "Versione doppia più resistente. Stampa full color su entrambi i lati." },
@@ -145,8 +145,8 @@ function openProduct(prod) {
   }
   function savePrefs(prefs) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ analytics: !!prefs.analytics, marketing: !!prefs.marketing, ts: Date.now() })); } catch(e){} }
   function loadPrefs() { try { var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch(e){ return null; } }
-  function hideBanner() { var b = document.getElementById('cookieBanner'); if (b) b.classList.remove('show'); }
-  function showBanner() { var b = document.getElementById('cookieBanner'); if (b) b.classList.add('show'); }
+  function hideBanner() { var b = document.getElementById('cookieBanner'); if (b) b.classList.remove('show'); document.body.classList.remove('cookie-lock'); }
+  function showBanner() { var b = document.getElementById('cookieBanner'); if (b) b.classList.add('show'); document.body.classList.add('cookie-lock'); }
   function onAcceptAll() { var p = { analytics: true, marketing: true }; applyConsent(p); savePrefs(p); hideBanner(); }
   function onReject() { var p = { analytics: false, marketing: false }; applyConsent(p); savePrefs(p); hideBanner(); }
   function onSavePrefs() { var p = { analytics: !!(document.getElementById('cAnalytics') || {}).checked, marketing: !!(document.getElementById('cMarketing') || {}).checked }; applyConsent(p); savePrefs(p); hideBanner(); }
@@ -246,4 +246,47 @@ function openProduct(prod) {
   }
   window.openWaChat = openWaChat;
   window.closeWaChat = closeWaChat;
+})();
+
+/* Cookie consent: popup centrale obbligatorio */
+(function(){
+  function injectCookieModalUI() {
+    if (document.getElementById('cookieModalStyles')) return;
+    var s = document.createElement('style');
+    s.id = 'cookieModalStyles';
+    s.textContent = [
+      '.cookie-banner{position:fixed!important;inset:0!important;z-index:10050!important;',
+      'background:rgba(0,0,0,.75)!important;display:none!important;',
+      'align-items:center!important;justify-content:center!important;padding:20px!important;',
+      '-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}',
+      '.cookie-banner.show{display:flex!important}',
+      '.cookie-inner{background:#1a1a1a!important;color:#fff!important;border-radius:16px!important;',
+      'padding:28px 24px!important;max-width:480px!important;width:100%!important;',
+      'box-shadow:0 20px 60px rgba(0,0,0,.5)!important;margin:0 auto!important;',
+      'display:flex!important;flex-direction:column!important;gap:16px!important;',
+      'max-height:90vh!important;overflow-y:auto!important}',
+      '.cookie-text{font-size:.95rem!important;line-height:1.5!important}',
+      '.cookie-text strong{display:block!important;font-size:1.2rem!important;margin-bottom:8px!important}',
+      '.cookie-actions{display:flex!important;flex-wrap:wrap!important;gap:10px!important}',
+      '.cookie-btn{flex:1!important;min-width:110px!important}',
+      'body.cookie-lock{overflow:hidden!important;touch-action:none!important}'
+    ].join('');
+    document.head.appendChild(s);
+
+    var banner = document.getElementById('cookieBanner');
+    if (!banner) return;
+    var text = banner.querySelector('.cookie-text');
+    if (text && text.textContent.trim().length < 40) {
+      text.innerHTML = '<strong>Utilizzo dei cookie</strong>Usiamo cookie tecnici e, solo con il tuo consenso, cookie analitici e di marketing per misurare le visite e migliorare il sito. Scegli un\'opzione per continuare a navigare.';
+    }
+    banner.setAttribute('aria-modal', 'true');
+    banner.addEventListener('click', function(e) {
+      if (e.target === banner) e.stopPropagation();
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectCookieModalUI);
+  } else {
+    injectCookieModalUI();
+  }
 })();
