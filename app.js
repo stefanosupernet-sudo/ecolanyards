@@ -59,6 +59,8 @@ function openProduct(p) {
     var fab = document.getElementById('contactFab');
     var btn = document.getElementById('contactFabBtn');
     if (!fab || !btn) return;
+    if (btn.dataset.fabBound) return;
+    btn.dataset.fabBound = '1';
     btn.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -67,12 +69,23 @@ function openProduct(p) {
     document.addEventListener('click', function(e) {
       if (!fab.contains(e.target)) fab.classList.remove('open');
     });
+    fab.querySelectorAll('a.contact-option').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var href = link.getAttribute('href') || '';
+        if (href.indexOf('tel:') === 0) {
+          e.preventDefault();
+          window.location.href = href;
+        }
+        setTimeout(function(){ fab.classList.remove('open'); }, 300);
+      });
+    });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initFab);
   else initFab();
 })();
 
-/* Tracking telefono / WhatsApp - NON blocca i link */
+/* Tracking telefono / WhatsApp + forza tel: */
 (function() {
   window.dataLayer = window.dataLayer || [];
   function pushEvent(name, extra) {
@@ -82,7 +95,12 @@ function openProduct(p) {
     var a = e.target.closest('a[href^="tel:"], .track-phone');
     if (!a) return;
     pushEvent('click_telefono', { event_category: 'contact', event_label: 'telefono', phone_number: '3358109363' });
-  });
+    var href = a.getAttribute('href') || '';
+    if (href.indexOf('tel:') === 0) {
+      e.preventDefault();
+      window.location.href = href;
+    }
+  }, true);
   document.addEventListener('click', function(e) {
     var a = e.target.closest('a[href*="wa.me"], .track-whatsapp');
     if (!a) return;
@@ -150,7 +168,7 @@ function openProduct(p) {
             window.dataLayer = window.dataLayer || [];
             var prod = form.querySelector('[name=prodotto]');
             window.dataLayer.push({ event: 'invio_form_contatti', form_name: 'scheda_prodotto', product_name: prod ? prod.value : '', event_category: 'conversion' });
-            alert('✅ Richiesta inviata a commerciale@ecolanyards.it');
+            alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it');
             form.reset();
           } else throw 0;
         })

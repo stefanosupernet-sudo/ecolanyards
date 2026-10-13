@@ -14,6 +14,17 @@
     document.addEventListener('click',function(e){
       if(!fab.contains(e.target))fab.classList.remove('open');
     });
+    fab.querySelectorAll('a.contact-option').forEach(function(link){
+      link.addEventListener('click',function(e){
+        e.stopPropagation();
+        var href=link.getAttribute('href')||'';
+        if(href.indexOf('tel:')===0){
+          e.preventDefault();
+          window.location.href=href;
+        }
+        setTimeout(function(){fab.classList.remove('open');},300);
+      });
+    });
   }
   function bindForm(){
     var form=document.getElementById('contactForm');
@@ -30,7 +41,7 @@
             window.dataLayer=window.dataLayer||[];
             var prod=form.querySelector('[name=prodotto]');
             window.dataLayer.push({event:'invio_form_contatti',form_name:'scheda_prodotto',product_name:prod?prod.value:'',event_category:'conversion'});
-            alert('✅ Richiesta inviata a commerciale@ecolanyards.it');
+            alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it');
             form.reset();
           }else throw 0;
         })
@@ -38,6 +49,15 @@
         .finally(function(){if(btn){btn.disabled=false;btn.textContent=t;}});
     });
   }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="tel:"]');
+    if(!a)return;
+    var href=a.getAttribute('href')||'';
+    if(href.indexOf('tel:')===0){
+      e.preventDefault();
+      window.location.href=href;
+    }
+  },true);
   function init(){initFab();bindForm();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
   else init();
