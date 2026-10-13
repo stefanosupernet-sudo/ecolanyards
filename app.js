@@ -48,3 +48,56 @@ function renderGrid(containerId, products) {
         grid.appendChild(card);
     });
 }
+renderGrid('lanyards-grid', lanyards);
+renderGrid('badge-grid', badges);
+function showPage(page) {
+    if (page === 'badge') { window.location.href = 'portabadge.html'; return; }
+    if (page === 'home' || page === 'lanyards') { window.location.href = 'laccetti.html'; return; }
+    window.location.href = 'index.html';
+}
+function openProduct(p) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+        <div class="modal">
+            <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+            <div class="modal-body">
+                <img src="${p.img}" alt="${p.title}" style="max-width:100%;border-radius:8px;">
+                <h2>${p.title}</h2>
+                <p>${p.desc}</p>
+                <span class="qty-badge">Quantità minima: da 50-100 pezzi</span>
+                <p class="wa-cta-modal"><a href="https://wa.me/393358109363" class="track-whatsapp" target="_blank" rel="noopener"><strong>Whatsapp</strong> per grafiche e preventivi immediati</a></p>
+                <a class="btn" href="${(window.productSlugs && window.productSlugs[p.id]) || '#'}">Vai alla scheda prodotto</a>
+            </div>
+        </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+}
+/* Safety rebind for any cards rendered before productSlugs (or static HTML) */
+(function(){
+  function rebindCards(){
+    if(!window.productSlugs) return;
+    document.querySelectorAll('.product-card').forEach(function(card){
+      var h3 = card.querySelector('h3');
+      if(!h3) return;
+      var title = h3.textContent.trim();
+      var id = null;
+      var all = (typeof lanyards!=='undefined'?lanyards:[]).concat(typeof badges!=='undefined'?badges:[]);
+      for(var i=0;i<all.length;i++){ if(all[i].title===title){ id=all[i].id; break; } }
+      var href = id ? window.productSlugs[id] : null;
+      if(!href) return;
+      card.style.cursor='pointer';
+      card.onclick=function(){ window.location.href=href; };
+      var btn = card.querySelector('.btn, button');
+      if(btn && btn.tagName !== 'A'){
+        var a=document.createElement('a');
+        a.className='btn'; a.href=href; a.textContent='Dettagli';
+        a.style.cssText='display:inline-block;text-align:center;text-decoration:none;box-sizing:border-box';
+        a.onclick=function(e){e.stopPropagation();};
+        btn.replaceWith(a);
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(rebindCards, 50); });
+  else setTimeout(rebindCards, 50);
+})();
