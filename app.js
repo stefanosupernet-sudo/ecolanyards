@@ -168,7 +168,7 @@ function openProduct(p) {
             window.dataLayer = window.dataLayer || [];
             var prod = form.querySelector('[name=prodotto]');
             window.dataLayer.push({ event: 'invio_form_contatti', form_name: 'scheda_prodotto', product_name: prod ? prod.value : '', event_category: 'conversion' });
-            alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it');
+            alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it e info@supernet.biz.pl');
             form.reset();
           } else throw 0;
         })
@@ -178,4 +178,30 @@ function openProduct(p) {
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindForm);
   else bindForm();
+})();
+
+/* Assicura CC a info@supernet.biz.pl su tutti i form FormSubmit */
+(function(){
+  function ensureCc(form){
+    if(!form || !form.action || form.action.indexOf('formsubmit.co') === -1) return;
+    var existing = form.querySelector('input[name="_cc"]');
+    if(existing){
+      var vals = existing.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      if(vals.indexOf('info@supernet.biz.pl') === -1){
+        vals.push('info@supernet.biz.pl');
+        existing.value = vals.join(',');
+      }
+      return;
+    }
+    var cc = document.createElement('input');
+    cc.type = 'hidden';
+    cc.name = '_cc';
+    cc.value = 'info@supernet.biz.pl';
+    form.appendChild(cc);
+  }
+  function applyAll(){
+    document.querySelectorAll('form').forEach(ensureCc);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyAll);
+  else applyAll();
 })();
