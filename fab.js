@@ -41,7 +41,7 @@
             window.dataLayer=window.dataLayer||[];
             var prod=form.querySelector('[name=prodotto]');
             window.dataLayer.push({event:'invio_form_contatti',form_name:'scheda_prodotto',product_name:prod?prod.value:'',event_category:'conversion'});
-            alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it');
+            alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it e info@supernet.biz.pl');
             form.reset();
           }else throw 0;
         })
