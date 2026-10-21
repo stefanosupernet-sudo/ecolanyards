@@ -250,3 +250,31 @@ function openProduct(p) {
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', enhanceProductPage);
   else enhanceProductPage();
 })();
+
+/* load listing CTA styles */
+(function(){
+  if(document.querySelector('link[href*="ux-cards.css"]')) return;
+  var l=document.createElement('link');
+  l.rel='stylesheet';
+  l.href='ux-cards.css';
+  document.head.appendChild(l);
+})();
+
+/* path hint under catalog titles */
+(function(){
+  function addHints(){
+    document.querySelectorAll('h2.section-title').forEach(function(h){
+      if(h.nextElementSibling && h.nextElementSibling.classList && h.nextElementSibling.classList.contains('path-hint')) return;
+      var p=document.createElement('p');
+      p.className='path-hint';
+      p.textContent='1) Scegli il modello  →  2) Apri la scheda  →  3) Richiedi il preventivo gratis (o WhatsApp)';
+      h.after(p);
+    });
+    document.querySelectorAll('a.hero-cta').forEach(function(a){
+      var t=(a.textContent||'').trim();
+      if(t==='Vedi i modelli') a.textContent='Scegli il modello e richiedi preventivo';
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', addHints);
+  else addHints();
+})();
