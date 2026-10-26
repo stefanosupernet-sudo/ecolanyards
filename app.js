@@ -1,4 +1,4 @@
-/* Loader: base app + UX A+B+C + listing heroes + Realizzazioni nav */
+/* Loader: base app + UX + Realizzazioni + Chi siamo nav */
 (function(){
   function load(src, cb){
     var s=document.createElement('script');
@@ -7,24 +7,28 @@
     document.head.appendChild(s);
   }
 
-  function ensureRealizzazioniNav(){
+  function ensureNavLinks(){
     document.querySelectorAll('header nav, .header-main nav').forEach(function(nav){
-      if(nav.querySelector('a[href*="realizzazioni"]')) return;
-      var a=document.createElement('a');
-      a.href='realizzazioni.html';
-      a.id='nav-realizzazioni';
-      a.textContent='Realizzazioni';
-      if(/realizzazioni/i.test(location.pathname||'')) a.className='active';
-      nav.appendChild(a);
+      if(!nav.querySelector('a[href*="realizzazioni"]')){
+        var a=document.createElement('a');
+        a.href='realizzazioni.html'; a.id='nav-realizzazioni'; a.textContent='Realizzazioni';
+        if(/realizzazioni/i.test(location.pathname||'')) a.className='active';
+        nav.appendChild(a);
+      }
+      if(!nav.querySelector('a[href*="chi-siamo"]')){
+        var b=document.createElement('a');
+        b.href='chi-siamo.html'; b.id='nav-chi-siamo'; b.textContent='Chi siamo';
+        if(/chi-siamo/i.test(location.pathname||'')) b.className='active';
+        nav.appendChild(b);
+      }
     });
   }
 
   function enhanceListing(){
-    ensureRealizzazioniNav();
+    ensureNavLinks();
     var hero=document.querySelector('section.hero');
     if(!hero || hero.dataset.trust) return;
-    // skip on realizzazioni page
-    if(/realizzazioni/i.test(location.pathname||'')) return;
+    if(/realizzazioni|chi-siamo/i.test(location.pathname||'')) return;
     hero.dataset.trust='1';
     var path=location.pathname||'';
     var isL=/laccetti/i.test(path);
