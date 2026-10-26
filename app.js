@@ -1,4 +1,4 @@
-/* Loader: base app + UX A+B+C + listing heroes */
+/* Loader: base app + UX A+B+C + listing heroes + Realizzazioni nav */
 (function(){
   function load(src, cb){
     var s=document.createElement('script');
@@ -6,10 +6,25 @@
     s.onerror=function(){ if(cb) cb(); };
     document.head.appendChild(s);
   }
-  /* A: hero + trust on listing pages */
+
+  function ensureRealizzazioniNav(){
+    document.querySelectorAll('header nav, .header-main nav').forEach(function(nav){
+      if(nav.querySelector('a[href*="realizzazioni"]')) return;
+      var a=document.createElement('a');
+      a.href='realizzazioni.html';
+      a.id='nav-realizzazioni';
+      a.textContent='Realizzazioni';
+      if(/realizzazioni/i.test(location.pathname||'')) a.className='active';
+      nav.appendChild(a);
+    });
+  }
+
   function enhanceListing(){
+    ensureRealizzazioniNav();
     var hero=document.querySelector('section.hero');
     if(!hero || hero.dataset.trust) return;
+    // skip on realizzazioni page
+    if(/realizzazioni/i.test(location.pathname||'')) return;
     hero.dataset.trust='1';
     var path=location.pathname||'';
     var isL=/laccetti/i.test(path);
@@ -37,10 +52,8 @@
       st.textContent='.trust-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto 20px;max-width:640px}.trust-badges span{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;border-radius:20px;padding:6px 12px;font-size:.85rem;font-weight:700}@media(max-width:600px){.hero h1{font-size:1.45rem!important;line-height:1.25}.hero-cta{width:100%;max-width:320px;margin:6px auto;display:block;box-sizing:border-box}}';
       document.head.appendChild(st);
     }
-    /* C: stronger WA banner copy */
     var ban=document.querySelector('.wa-banner a');
     if(ban && ban.textContent.indexOf('10 secondi')===-1){
-      ban.textContent='';
       ban.innerHTML='<strong>WhatsApp</strong> \u00b7 chiedi il prezzo in 10 secondi (risposta rapida)';
       var msg=isB?'Ciao, vorrei un preventivo per portabadge':(isL?'Ciao, vorrei un preventivo per laccetti personalizzati':'Ciao, vorrei un preventivo per laccetti/portabadge');
       ban.href='https://wa.me/393358109363?text='+encodeURIComponent(msg);
