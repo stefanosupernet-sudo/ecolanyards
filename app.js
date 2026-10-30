@@ -1,4 +1,4 @@
-/* Loader: base app + UX + Realizzazioni + Chi siamo nav */
+/* Loader: base app + UX A+B+C + Clarity UX + nav + safety tracking */
 (function(){
   function load(src, cb){
     var s=document.createElement('script');
@@ -6,6 +6,32 @@
     s.onerror=function(){ if(cb) cb(); };
     document.head.appendChild(s);
   }
+
+  /* Safety tracking: stessi eventi GTM (idempotente, non duplica se già gestito) */
+  (function safetyTracking(){
+    if(window.__safetyTrack) return;
+    window.__safetyTrack=1;
+    window.dataLayer=window.dataLayer||[];
+    function push(name, extra){
+      window.dataLayer.push(Object.assign({event:name}, extra||{}));
+    }
+    document.addEventListener('click', function(e){
+      var a=e.target.closest('a[href^="tel:"], .track-phone');
+      if(!a) return;
+      if(a.dataset.trackFired==='tel') return;
+      a.dataset.trackFired='tel';
+      push('click_telefono',{event_category:'contact',event_label:'telefono',phone_number:'3358109363'});
+      setTimeout(function(){ try{ delete a.dataset.trackFired; }catch(err){} }, 800);
+    }, true);
+    document.addEventListener('click', function(e){
+      var a=e.target.closest('a[href*="wa.me"], .track-whatsapp');
+      if(!a) return;
+      if(a.dataset.trackFired==='wa') return;
+      a.dataset.trackFired='wa';
+      push('click_whatsapp',{event_category:'contact',event_label:'whatsapp',phone_number:'3358109363'});
+      setTimeout(function(){ try{ delete a.dataset.trackFired; }catch(err){} }, 800);
+    }, true);
+  })();
 
   function ensureNavLinks(){
     document.querySelectorAll('header nav, .header-main nav').forEach(function(nav){
@@ -57,16 +83,21 @@
       document.head.appendChild(st);
     }
     var ban=document.querySelector('.wa-banner a');
-    if(ban && ban.textContent.indexOf('10 secondi')===-1){
-      ban.innerHTML='<strong>WhatsApp</strong> \u00b7 chiedi il prezzo in 10 secondi (risposta rapida)';
-      var msg=isB?'Ciao, vorrei un preventivo per portabadge':(isL?'Ciao, vorrei un preventivo per laccetti personalizzati':'Ciao, vorrei un preventivo per laccetti/portabadge');
-      ban.href='https://wa.me/393358109363?text='+encodeURIComponent(msg);
+    if(ban){
+      if(!ban.classList.contains('track-whatsapp')) ban.classList.add('track-whatsapp');
+      if(ban.textContent.indexOf('10 secondi')===-1){
+        ban.innerHTML='<strong>WhatsApp</strong> \u00b7 chiedi il prezzo in 10 secondi (risposta rapida)';
+        var msg=isB?'Ciao, vorrei un preventivo per portabadge':(isL?'Ciao, vorrei un preventivo per laccetti personalizzati':'Ciao, vorrei un preventivo per laccetti/portabadge');
+        ban.href='https://wa.me/393358109363?text='+encodeURIComponent(msg);
+      }
     }
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', enhanceListing);
   else enhanceListing();
 
   load('https://cdn.jsdelivr.net/gh/stefanosupernet-sudo/ecolanyards@c928dc99a2491efc36f87dccd251f37dc2377464/app.js', function(){
-    load('ux-abc.js?v=20261023abc');
+    load('ux-abc.js?v=20261023abc', function(){
+      load('ux-clarity.js?v=20261030c');
+    });
   });
 })();
