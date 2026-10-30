@@ -1,4 +1,4 @@
-/* FAB cornetta + form bind - standalone */
+/* FAB cornetta + form bind + tel force - tracking preservato */
 (function(){
   function initFab(){
     var fab=document.getElementById('contactFab');
@@ -43,14 +43,16 @@
             window.dataLayer.push({event:'invio_form_contatti',form_name:'scheda_prodotto',product_name:prod?prod.value:'',event_category:'conversion'});
             alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it e info@supernet.biz.pl');
             form.reset();
+            form.dataset.submitted='1';
           }else throw 0;
         })
         .catch(function(){form.submit();})
         .finally(function(){if(btn){btn.disabled=false;btn.textContent=t;}});
     });
   }
+  /* tel: forza chiamata + evento click_telefono (dedup via dataset sul link gestito in app.js) */
   document.addEventListener('click',function(e){
-    var a=e.target.closest('a[href^="tel:"]');
+    var a=e.target.closest('a[href^="tel:"], .track-phone');
     if(!a)return;
     var href=a.getAttribute('href')||'';
     if(href.indexOf('tel:')===0){
