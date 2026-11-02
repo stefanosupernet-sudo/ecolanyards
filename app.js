@@ -1,4 +1,4 @@
-/* Loader: base app + UX A+B+C + Clarity UX + nav + safety tracking */
+/* Loader: base app + UX + Clarity + nav + safety tracking + fab */
 (function(){
   function load(src, cb){
     var s=document.createElement('script');
@@ -7,7 +7,6 @@
     document.head.appendChild(s);
   }
 
-  /* Safety tracking: stessi eventi GTM (idempotente, non duplica se già gestito) */
   (function safetyTracking(){
     if(window.__safetyTrack) return;
     window.__safetyTrack=1;
@@ -97,7 +96,10 @@
 
   load('https://cdn.jsdelivr.net/gh/stefanosupernet-sudo/ecolanyards@c928dc99a2491efc36f87dccd251f37dc2377464/app.js', function(){
     load('ux-abc.js?v=20261023abc', function(){
-      load('ux-clarity.js?v=20261030c');
+      load('ux-clarity.js?v=20261030c', function(){
+        /* fab.js: se non e gia in pagina, caricalo (idempotente con __fabBoot) */
+        if(!window.__fabBoot) load('fab.js?v=20261102fab');
+      });
     });
   });
 })();
