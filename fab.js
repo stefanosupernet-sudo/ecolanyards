@@ -1,5 +1,5 @@
 /* FAB cornetta (Chiama + WhatsApp) + form + tel + CSS mobile header/FAB
- * Inietta la cornetta se manca HTML, cosi e presente su ogni pagina. */
+ * Inietta la cornetta se manca HTML; dopo invio form -> grazie.html */
 (function () {
   if (window.__fabBoot) return;
   window.__fabBoot = 1;
@@ -124,6 +124,7 @@
     form.dataset.bound = '1';
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      e.stopImmediatePropagation();
       var btn = form.querySelector('button[type=submit]');
       var t = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = 'Invio in corso...'; }
@@ -133,14 +134,14 @@
             window.dataLayer = window.dataLayer || [];
             var prod = form.querySelector('[name=prodotto]');
             window.dataLayer.push({ event: 'invio_form_contatti', form_name: 'scheda_prodotto', product_name: prod ? prod.value : '', event_category: 'conversion' });
-            alert('\u2705 Richiesta inviata a commerciale@ecolanyards.it e info@supernet.biz.pl');
-            form.reset();
             form.dataset.submitted = '1';
+            window.location.href = 'grazie.html';
+            return;
           } else throw 0;
         })
         .catch(function () { form.submit(); })
         .finally(function () { if (btn) { btn.disabled = false; btn.textContent = t; } });
-    });
+    }, true);
   }
 
   document.addEventListener('click', function (e) {
@@ -162,6 +163,18 @@
 })();
 
 (function () {
+  function ensureNext(form) {
+    if (!form || !form.action || form.action.indexOf('formsubmit.co') === -1) return;
+    var next = form.querySelector('input[name="_next"]');
+    var url = 'grazie.html';
+    try { url = new URL('grazie.html', location.href).href; } catch (e) {}
+    if (next) { next.value = url; return; }
+    var inp = document.createElement('input');
+    inp.type = 'hidden';
+    inp.name = '_next';
+    inp.value = url;
+    form.appendChild(inp);
+  }
   function ensureCc(form) {
     if (!form || !form.action || form.action.indexOf('formsubmit.co') === -1) return;
     var existing = form.querySelector('input[name="_cc"]');
@@ -180,7 +193,7 @@
     form.appendChild(cc);
   }
   function applyAll() {
-    document.querySelectorAll('form').forEach(ensureCc);
+    document.querySelectorAll('form').forEach(function (f) { ensureCc(f); ensureNext(f); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyAll);
   else applyAll();
