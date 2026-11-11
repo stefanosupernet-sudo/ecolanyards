@@ -1,4 +1,4 @@
-/* Loader: base app + UX + Clarity + nav + safety tracking + fab */
+/* Loader: base app + UX + Clarity + nav + safety tracking + fab + cookie modal */
 (function(){
   function load(src, cb){
     var s=document.createElement('script');
@@ -6,6 +6,54 @@
     s.onerror=function(){ if(cb) cb(); };
     document.head.appendChild(s);
   }
+
+  /* Cookie: modale centrata a schermo intero - blocca interazione fino ad Accetta/Rifiuta */
+  (function cookieModalCss(){
+    if(document.getElementById('cookie-modal-css')) return;
+    var st=document.createElement('style');
+    st.id='cookie-modal-css';
+    st.textContent=[
+      '#cookieBanner.cookie-banner, .cookie-banner{',
+      '  position:fixed!important;inset:0!important;z-index:100000!important;',
+      '  display:none!important;align-items:center;justify-content:center;',
+      '  background:rgba(0,0,0,.75)!important;padding:16px!important;',
+      '  box-shadow:none!important;bottom:auto!important;left:0!important;right:0!important;top:0!important;',
+      '  margin:0!important;max-width:none!important;width:100%!important;height:100%!important;',
+      '  overflow:auto;-webkit-overflow-scrolling:touch;',
+      '}',
+      '#cookieBanner.cookie-banner.show, .cookie-banner.show{display:flex!important;}',
+      '.cookie-banner .cookie-inner{',
+      '  background:#1a1a1a!important;color:#fff!important;',
+      '  max-width:460px!important;width:100%!important;margin:auto!important;',
+      '  padding:24px 20px!important;border-radius:16px!important;',
+      '  flex-direction:column!important;align-items:stretch!important;',
+      '  gap:16px!important;box-shadow:0 16px 48px rgba(0,0,0,.5)!important;',
+      '  display:flex!important;flex-wrap:nowrap!important;',
+      '}',
+      '.cookie-banner .cookie-text{flex:none!important;min-width:0!important;width:100%!important;font-size:.95rem;line-height:1.5;}',
+      '.cookie-banner .cookie-actions{',
+      '  display:flex!important;flex-direction:column!important;gap:10px!important;',
+      '  width:100%!important;align-items:stretch!important;',
+      '}',
+      '.cookie-banner .cookie-btn{',
+      '  width:100%!important;min-height:48px!important;padding:14px 16px!important;',
+      '  font-weight:800!important;font-size:1rem!important;border-radius:10px!important;cursor:pointer;',
+      '}',
+      '.cookie-banner .cookie-btn.accept{background:#4caf50!important;color:#fff!important;border:none!important;order:1;}',
+      '.cookie-banner .cookie-btn.reject{background:transparent!important;color:#fff!important;border:1px solid #888!important;order:2;}',
+      '.cookie-banner .cookie-btn.prefs{background:#333!important;color:#fff!important;border:1px solid #555!important;order:3;}',
+      'body.cookie-lock{overflow:hidden!important;touch-action:none!important;height:100%!important;}',
+      'body.cookie-lock > *:not(#cookieBanner):not(script):not(style):not(link):not(noscript){',
+      '  pointer-events:none!important;user-select:none!important;',
+      '}',
+      '#cookieBanner, #cookieBanner *{pointer-events:auto!important;user-select:auto!important;}',
+      '@media(max-width:600px){',
+      '  .cookie-banner .cookie-inner{padding:20px 16px!important;max-width:100%!important;border-radius:14px!important;}',
+      '  .cookie-banner .cookie-btn{font-size:.95rem!important;}',
+      '}'
+    ].join('');
+    document.head.appendChild(st);
+  })();
 
   (function safetyTracking(){
     if(window.__safetyTrack) return;
@@ -53,7 +101,7 @@
     ensureNavLinks();
     var hero=document.querySelector('section.hero');
     if(!hero || hero.dataset.trust) return;
-    if(/realizzazioni|chi-siamo/i.test(location.pathname||'')) return;
+    if(/realizzazioni|chi-siamo|grazie/i.test(location.pathname||'')) return;
     hero.dataset.trust='1';
     var path=location.pathname||'';
     var isL=/laccetti/i.test(path);
@@ -97,8 +145,7 @@
   load('https://cdn.jsdelivr.net/gh/stefanosupernet-sudo/ecolanyards@c928dc99a2491efc36f87dccd251f37dc2377464/app.js', function(){
     load('ux-abc.js?v=20261023abc', function(){
       load('ux-clarity.js?v=20261030c', function(){
-        /* fab.js: se non e gia in pagina, caricalo (idempotente con __fabBoot) */
-        if(!window.__fabBoot) load('fab.js?v=20261102fab');
+        if(!window.__fabBoot) load('fab.js?v=20261110grazie');
       });
     });
   });
