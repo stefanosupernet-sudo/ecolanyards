@@ -1,4 +1,4 @@
-/* Loader: base app + UX + Clarity + audit fix + nav + tracking + fab + cookie modal */
+/* Loader: base app + catalog-update + UX + cookie modal */
 (function(){
   function load(src, cb){
     var s=document.createElement('script');
@@ -30,29 +30,17 @@
       '  display:flex!important;flex-wrap:nowrap!important;',
       '}',
       '.cookie-banner .cookie-text{flex:none!important;min-width:0!important;width:100%!important;font-size:.95rem;line-height:1.5;}',
-      '.cookie-banner .cookie-actions{',
-      '  display:flex!important;flex-direction:column!important;gap:10px!important;',
-      '  width:100%!important;align-items:stretch!important;',
-      '}',
-      '.cookie-banner .cookie-btn{',
-      '  width:100%!important;min-height:48px!important;padding:14px 16px!important;',
-      '  font-weight:800!important;font-size:1rem!important;border-radius:10px!important;cursor:pointer;',
-      '}',
+      '.cookie-banner .cookie-actions{display:flex!important;flex-direction:column!important;gap:10px!important;width:100%!important;align-items:stretch!important;}',
+      '.cookie-banner .cookie-btn{width:100%!important;min-height:48px!important;padding:14px 16px!important;font-weight:800!important;font-size:1rem!important;border-radius:10px!important;cursor:pointer;}',
       '.cookie-banner .cookie-btn.accept{background:#4caf50!important;color:#fff!important;border:none!important;order:1;}',
       '.cookie-banner .cookie-btn.reject{background:transparent!important;color:#fff!important;border:1px solid #888!important;order:2;}',
       '.cookie-banner .cookie-btn.prefs{background:#333!important;color:#fff!important;border:1px solid #555!important;order:3;}',
       'body.cookie-lock{overflow:hidden!important;touch-action:none!important;height:100%!important;}',
-      'body.cookie-lock > *:not(#cookieBanner):not(script):not(style):not(link):not(noscript){',
-      '  pointer-events:none!important;user-select:none!important;',
-      '}',
+      'body.cookie-lock > *:not(#cookieBanner):not(script):not(style):not(link):not(noscript){pointer-events:none!important;user-select:none!important;}',
       '#cookieBanner, #cookieBanner *{pointer-events:auto!important;user-select:auto!important;}',
-      /* Unlock completo dopo scelta */
       'body:not(.cookie-lock){overflow:auto!important;touch-action:auto!important;height:auto!important;}',
       'body:not(.cookie-lock) > *{pointer-events:auto!important;user-select:auto!important;}',
-      '@media(max-width:600px){',
-      '  .cookie-banner .cookie-inner{padding:20px 16px!important;max-width:100%!important;border-radius:14px!important;}',
-      '  .cookie-banner .cookie-btn{font-size:.95rem!important;}',
-      '}'
+      '@media(max-width:600px){.cookie-banner .cookie-inner{padding:20px 16px!important;max-width:100%!important;border-radius:14px!important;}.cookie-banner .cookie-btn{font-size:.95rem!important;}}'
     ].join('');
     document.head.appendChild(st);
   })();
@@ -61,9 +49,7 @@
     if(window.__safetyTrack) return;
     window.__safetyTrack=1;
     window.dataLayer=window.dataLayer||[];
-    function push(name, extra){
-      window.dataLayer.push(Object.assign({event:name}, extra||{}));
-    }
+    function push(name, extra){ window.dataLayer.push(Object.assign({event:name}, extra||{})); }
     document.addEventListener('click', function(e){
       var a=e.target.closest('a[href^="tel:"], .track-phone');
       if(!a) return;
@@ -113,23 +99,23 @@
       var h1=hero.querySelector('h1');
       var p=hero.querySelector('p');
       if(h1){
-        if(isL) h1.textContent='Laccetti personalizzati in 3-7 giorni \u00b7 Preventivo gratis da 50 pezzi';
-        else if(isB) h1.textContent='Portabadge personalizzati \u00b7 Preventivo gratis da 50 pezzi';
-        else if(isHome) h1.textContent='Laccetti personalizzati in 3-7 giorni \u00b7 Preventivo gratis da 50 pezzi';
+        if(isL) h1.textContent='Laccetti personalizzati in 3-7 giorni \u00b7 Preventivo gratis da 100 pezzi';
+        else if(isB) h1.textContent='Portabadge personalizzati \u00b7 Preventivo gratis da 100 pezzi';
+        else if(isHome) h1.textContent='Laccetti personalizzati in 3-7 giorni \u00b7 Preventivo gratis da 100 pezzi';
       }
       if(p && isHome) p.textContent='Produzione diretta Made in Italy \u00b7 PET riciclato \u00b7 Risposta rapida su form o WhatsApp';
       if(!hero.querySelector('.trust-badges')){
         var tb=document.createElement('div');
         tb.className='trust-badges';
         tb.setAttribute('aria-label','Vantaggi');
-        tb.innerHTML='<span>Preventivo gratuito</span><span>Min. 50-100 pezzi</span><span>Made in Italy</span><span>Risposta in poche ore</span>';
+        tb.innerHTML='<span>Preventivo gratuito</span><span>Min. 100 pezzi</span><span>Impianti stampa gratis</span><span>Stampa 1-6 colori</span><span>Made in Italy</span>';
         var cta=hero.querySelector('.hero-cta');
         if(cta) hero.insertBefore(tb, cta);
         else hero.appendChild(tb);
       }
       if(!document.getElementById('trust-badges-css')){
         var st=document.createElement('style'); st.id='trust-badges-css';
-        st.textContent='.trust-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto 20px;max-width:640px}.trust-badges span{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;border-radius:20px;padding:6px 12px;font-size:.85rem;font-weight:700}@media(max-width:600px){.hero h1{font-size:1.45rem!important;line-height:1.25}.hero-cta{width:100%;max-width:320px;margin:6px auto;display:block;box-sizing:border-box}}';
+        st.textContent='.trust-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto 20px;max-width:720px}.trust-badges span{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;border-radius:20px;padding:6px 12px;font-size:.85rem;font-weight:700}@media(max-width:600px){.hero h1{font-size:1.45rem!important;line-height:1.25}.hero-cta{width:100%;max-width:320px;margin:6px auto;display:block;box-sizing:border-box}}';
         document.head.appendChild(st);
       }
       var ban=document.querySelector('.wa-banner a');
@@ -146,11 +132,14 @@
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', enhanceListing);
   else enhanceListing();
 
+  /* catalog-update subito dopo base app (rimuove L5, qty 100, claims) */
   load('https://cdn.jsdelivr.net/gh/stefanosupernet-sudo/ecolanyards@c928dc99a2491efc36f87dccd251f37dc2377464/app.js', function(){
-    load('ux-abc.js?v=20261023abc', function(){
-      load('ux-clarity.js?v=20261030c', function(){
-        load('ux-audit-fix.js?v=20261116a', function(){
-          if(!window.__fabBoot) load('fab.js?v=20261110grazie');
+    load('catalog-update.js?v=20261117c', function(){
+      load('ux-abc.js?v=20261023abc', function(){
+        load('ux-clarity.js?v=20261030c', function(){
+          load('ux-audit-fix.js?v=20261116a', function(){
+            if(!window.__fabBoot) load('fab.js?v=20261110grazie');
+          });
         });
       });
     });
