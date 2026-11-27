@@ -1,10 +1,17 @@
-/* Loader: base app + catalog-update + UX + cookie modal */
+/* Loader: base app + catalog-update + UX + cookie modal + wa chat */
 (function(){
   function load(src, cb){
     var s=document.createElement('script');
     s.src=src; s.onload=cb||function(){};
     s.onerror=function(){ if(cb) cb(); };
     document.head.appendChild(s);
+  }
+
+  /* Chat a due step: deve partire prima degli altri listener WhatsApp. */
+  if (document.readyState === 'loading') {
+    document.write('<script src="wa-chat.js?v=20261127"><\/script>');
+  } else if (!window.__waChatBoot) {
+    load('wa-chat.js?v=20261127');
   }
 
   (function cookieModalCss(){
@@ -36,8 +43,8 @@
       '.cookie-banner .cookie-btn.reject{background:transparent!important;color:#fff!important;border:1px solid #888!important;order:2;}',
       '.cookie-banner .cookie-btn.prefs{background:#333!important;color:#fff!important;border:1px solid #555!important;order:3;}',
       'body.cookie-lock{overflow:hidden!important;touch-action:none!important;height:100%!important;}',
-      'body.cookie-lock > *:not(#cookieBanner):not(script):not(style):not(link):not(noscript){pointer-events:none!important;user-select:none!important;}',
-      '#cookieBanner, #cookieBanner *{pointer-events:auto!important;user-select:auto!important;}',
+      'body.cookie-lock > *:not(#cookieBanner):not(#waChat):not(script):not(style):not(link):not(noscript){pointer-events:none!important;user-select:none!important;}',
+      '#cookieBanner, #cookieBanner *, #waChat, #waChat *{pointer-events:auto!important;user-select:auto!important;}',
       'body:not(.cookie-lock){overflow:auto!important;touch-action:auto!important;height:auto!important;}',
       'body:not(.cookie-lock) > *{pointer-events:auto!important;user-select:auto!important;}',
       '@media(max-width:600px){.cookie-banner .cookie-inner{padding:20px 16px!important;max-width:100%!important;border-radius:14px!important;}.cookie-banner .cookie-btn{font-size:.95rem!important;}}'
@@ -53,17 +60,10 @@
     document.addEventListener('click', function(e){
       var a=e.target.closest('a[href^="tel:"], .track-phone');
       if(!a) return;
+      if(a.classList.contains('track-whatsapp') || ((a.getAttribute('href')||'').indexOf('wa.me')!==-1)) return;
       if(a.dataset.trackFired==='tel') return;
       a.dataset.trackFired='tel';
       push('click_telefono',{event_category:'contact',event_label:'telefono',phone_number:'3358109363'});
-      setTimeout(function(){ try{ delete a.dataset.trackFired; }catch(err){} }, 800);
-    }, true);
-    document.addEventListener('click', function(e){
-      var a=e.target.closest('a[href*="wa.me"], .track-whatsapp');
-      if(!a) return;
-      if(a.dataset.trackFired==='wa') return;
-      a.dataset.trackFired='wa';
-      push('click_whatsapp',{event_category:'contact',event_label:'whatsapp',phone_number:'3358109363'});
       setTimeout(function(){ try{ delete a.dataset.trackFired; }catch(err){} }, 800);
     }, true);
   })();
@@ -132,7 +132,6 @@
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', enhanceListing);
   else enhanceListing();
 
-  /* catalog-update subito dopo base app (rimuove L5, qty 100, claims) */
   load('https://cdn.jsdelivr.net/gh/stefanosupernet-sudo/ecolanyards@c928dc99a2491efc36f87dccd251f37dc2377464/app.js', function(){
     load('catalog-update.js?v=20261117c', function(){
       load('ux-abc.js?v=20261023abc', function(){
