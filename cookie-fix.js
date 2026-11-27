@@ -1,4 +1,4 @@
-/* Banner cookie: niente click a vuoto, pagina utilizzabile, contatti sempre cliccabili. */
+/* Banner cookie: niente click a vuoto, pagina e contatti utilizzabili. */
 (function () {
   if (window.__cookieFix) return;
   window.__cookieFix = 1;
@@ -8,8 +8,14 @@
   css.textContent = [
     'body.cookie-lock{overflow:auto!important;touch-action:auto!important;height:auto!important}',
     'body.cookie-lock > *{pointer-events:auto!important;user-select:auto!important}',
-    '#cookieBanner.cookie-banner.show{align-items:flex-end!important;justify-content:center!important;background:rgba(0,0,0,.4)!important;padding:0!important}',
-    '#cookieBanner .cookie-inner{width:min(520px,100%)!important;max-height:min(78vh,560px)!important;overflow:auto!important;border-radius:16px 16px 0 0!important;margin:0!important}',
+    '#cookieBanner.cookie-banner, #cookieBanner.cookie-banner.show{',
+    '  top:auto!important;left:0!important;right:0!important;bottom:0!important;',
+    '  height:auto!important;width:100%!important;max-height:none!important;',
+    '  background:transparent!important;padding:0!important;display:none!important;',
+    '  align-items:stretch!important;box-shadow:none!important;',
+    '}',
+    '#cookieBanner.cookie-banner.show{display:block!important;}',
+    '#cookieBanner .cookie-inner{width:min(640px,100%)!important;max-width:640px!important;margin:0 auto!important;max-height:46vh!important;overflow:auto!important;border-radius:16px 16px 0 0!important;box-shadow:0 -8px 28px rgba(0,0,0,.28)!important}',
     '#cookieBanner .cookie-actions{display:flex!important;flex-direction:column!important;gap:8px!important}',
     '#cookieBanner .cookie-btn{min-height:48px!important;width:100%!important;font-size:1rem!important}',
     '#cookieBanner .cookie-btn:active{transform:scale(.98)}',
@@ -18,7 +24,8 @@
     '#cookieBanner .cookie-reassure{display:block;margin-top:6px;font-size:.88rem;color:#ddd}',
     '@keyframes cookieNudge{50%{transform:scale(1.03)}}',
     '#cookieBanner .cookie-btn.nudge{animation:cookieNudge .35s ease 2}',
-    '@media(min-width:700px){#cookieBanner.cookie-banner.show{align-items:center!important;padding:16px!important}#cookieBanner .cookie-inner{border-radius:16px!important}}'
+    'header, header a, .wa-banner, .wa-banner a, .contact-fab, .contact-fab *{position:relative;z-index:100001}',
+    '@media(min-width:700px){#cookieBanner .cookie-inner{border-radius:16px!important;margin:0 auto 16px!important}}'
   ].join('');
   document.head.appendChild(css);
 
@@ -65,22 +72,19 @@
       }, true);
     });
     var prefs = document.getElementById('cookiePrefsBtn');
-    var panel = document.getElementById('cookiePrefsPanel');
-    if (prefs && panel) {
+    if (prefs) {
       prefs.addEventListener('click', function () {
         setTimeout(function () {
           var save = document.getElementById('cookieSavePrefs');
-          if (save) {
-            save.textContent = 'Salva e continua';
-            try { save.scrollIntoView({ block: 'nearest' }); } catch (e) {}
-          }
+          if (!save) return;
+          save.textContent = 'Salva e continua';
+          try { save.scrollIntoView({ block: 'nearest' }); } catch (e) {}
         }, 40);
       });
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bind);
-  } else bind();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
   setTimeout(bind, 400);
 })();
