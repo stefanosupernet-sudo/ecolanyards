@@ -9,9 +9,9 @@
 
   /* Chat a due step: deve partire prima degli altri listener WhatsApp. */
   if (document.readyState === 'loading') {
-    document.write('<script src="wa-chat.js?v=20261127"><\/script>');
+    document.write('<script src="wa-chat.js?v=20261127b"><\/script>');
   } else if (!window.__waChatBoot) {
-    load('wa-chat.js?v=20261127');
+    load('wa-chat.js?v=20261127b');
   }
 
   (function cookieModalCss(){
