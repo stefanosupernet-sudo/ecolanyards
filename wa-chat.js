@@ -23,7 +23,7 @@
       '#waChat .wa-chat-close{margin-left:auto;background:transparent;border:0;color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;padding:4px 6px}',
       '#waChat .wa-chat-log{background:#ece5dd;padding:14px;min-height:92px}',
       '#waChat .wa-chat-bot{background:#fff;border-radius:0 12px 12px 12px;padding:10px 12px;font-size:.92rem;line-height:1.4;color:#222;margin:0}',
-      '#waChat form{display:flex;flex-direction:column;gap:8px;padding:10px;background:#f0f0f0}',
+      '#waChat .wa-chat-compose{display:flex;flex-direction:column;gap:8px;padding:10px;background:#f0f0f0}',
       '#waChat textarea{width:100%;min-height:72px;border:1px solid #ddd;border-radius:10px;padding:10px;font:inherit;resize:vertical;box-sizing:border-box}',
       '#waChat .wa-chat-send{background:#25D366;color:#fff;border:0;border-radius:10px;min-height:48px;font-weight:800;font-size:1rem;cursor:pointer}',
       '#waChat .wa-chat-send:disabled{opacity:.6;cursor:default}',
@@ -55,13 +55,13 @@
       '<div class="wa-chat-head"><div class="wa-chat-avatar">E</div><div><strong id="waChatTitle">EcoLanyards</strong><span>Scrivi qui, poi si apre WhatsApp</span></div>' +
       '<button type="button" class="wa-chat-close" aria-label="Chiudi">\u00d7</button></div>' +
       '<div class="wa-chat-log"><p class="wa-chat-bot">Ciao. Scrivi prodotto e quantit\u00e0. Con Invia il messaggio parte su WhatsApp.</p></div>' +
-      '<form><p class="wa-chat-err">Scrivi un messaggio prima di inviare.</p>' +
-      '<textarea name="msg" maxlength="500" placeholder="Es. 200 laccetti PET, logo su due lati" required></textarea>' +
-      '<button type="submit" class="wa-chat-send">Invia su WhatsApp</button></form></div>';
+      '<div class="wa-chat-compose"><p class="wa-chat-err">Scrivi un messaggio prima di inviare.</p>' +
+      '<textarea name="msg" maxlength="500" placeholder="Es. 200 laccetti PET, logo su due lati"></textarea>' +
+      '<button type="button" class="wa-chat-send">Invia su WhatsApp</button></div></div>';
     document.body.appendChild(el);
     el.querySelector('.wa-chat-backdrop').addEventListener('click', close);
     el.querySelector('.wa-chat-close').addEventListener('click', close);
-    el.querySelector('form').addEventListener('submit', onSend);
+    el.querySelector('.wa-chat-send').addEventListener('click', onSend);
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && el.classList.contains('open')) close();
     });
@@ -84,8 +84,7 @@
     setTimeout(function () { try { ta.focus(); } catch (e) {} }, 50);
   }
 
-  function onSend(e) {
-    e.preventDefault();
+  function onSend() {
     var el = document.getElementById('waChat');
     var ta = el.querySelector('textarea');
     var text = (ta.value || '').trim();
