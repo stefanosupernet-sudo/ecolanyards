@@ -7,47 +7,48 @@
     document.head.appendChild(s);
   }
 
-  /* Chat a due step: deve partire prima degli altri listener WhatsApp. */
+  /* Chat a due step e fix cookie: prima degli altri script. */
   if (document.readyState === 'loading') {
     document.write('<script src="wa-chat.js?v=20261127b"><\/script>');
-  } else if (!window.__waChatBoot) {
-    load('wa-chat.js?v=20261127b');
+    document.write('<script src="cookie-fix.js?v=20261127c"><\/script>');
+  } else {
+    if (!window.__waChatBoot) load('wa-chat.js?v=20261127b');
+    if (!window.__cookieFix) load('cookie-fix.js?v=20261127c');
   }
 
   (function cookieModalCss(){
+    if(document.getElementById('cookie-fix-css')) return;
     if(document.getElementById('cookie-modal-css')) return;
     var st=document.createElement('style');
     st.id='cookie-modal-css';
     st.textContent=[
       '#cookieBanner.cookie-banner, .cookie-banner{',
       '  position:fixed!important;inset:0!important;z-index:100000!important;',
-      '  display:none!important;align-items:center;justify-content:center;',
-      '  background:rgba(0,0,0,.75)!important;padding:16px!important;',
-      '  box-shadow:none!important;bottom:auto!important;left:0!important;right:0!important;top:0!important;',
+      '  display:none!important;align-items:flex-end;justify-content:center;',
+      '  background:rgba(0,0,0,.4)!important;padding:0!important;',
+      '  box-shadow:none!important;bottom:0!important;left:0!important;right:0!important;top:0!important;',
       '  margin:0!important;max-width:none!important;width:100%!important;height:100%!important;',
       '  overflow:auto;-webkit-overflow-scrolling:touch;',
       '}',
       '#cookieBanner.cookie-banner.show, .cookie-banner.show{display:flex!important;}',
       '.cookie-banner .cookie-inner{',
       '  background:#1a1a1a!important;color:#fff!important;',
-      '  max-width:460px!important;width:100%!important;margin:auto!important;',
-      '  padding:24px 20px!important;border-radius:16px!important;',
+      '  max-width:520px!important;width:100%!important;margin:0!important;',
+      '  padding:20px 16px!important;border-radius:16px 16px 0 0!important;',
       '  flex-direction:column!important;align-items:stretch!important;',
-      '  gap:16px!important;box-shadow:0 16px 48px rgba(0,0,0,.5)!important;',
-      '  display:flex!important;flex-wrap:nowrap!important;',
+      '  gap:12px!important;box-shadow:0 16px 48px rgba(0,0,0,.5)!important;',
+      '  display:flex!important;flex-wrap:nowrap!important;max-height:78vh;overflow:auto;',
       '}',
-      '.cookie-banner .cookie-text{flex:none!important;min-width:0!important;width:100%!important;font-size:.95rem;line-height:1.5;}',
-      '.cookie-banner .cookie-actions{display:flex!important;flex-direction:column!important;gap:10px!important;width:100%!important;align-items:stretch!important;}',
+      '.cookie-banner .cookie-text{flex:none!important;min-width:0!important;width:100%!important;font-size:.95rem;line-height:1.45;}',
+      '.cookie-banner .cookie-actions{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%!important;align-items:stretch!important;}',
       '.cookie-banner .cookie-btn{width:100%!important;min-height:48px!important;padding:14px 16px!important;font-weight:800!important;font-size:1rem!important;border-radius:10px!important;cursor:pointer;}',
       '.cookie-banner .cookie-btn.accept{background:#4caf50!important;color:#fff!important;border:none!important;order:1;}',
-      '.cookie-banner .cookie-btn.reject{background:transparent!important;color:#fff!important;border:1px solid #888!important;order:2;}',
+      '.cookie-banner .cookie-btn.reject{background:transparent!important;color:#fff!important;border:1px solid #aaa!important;order:2;}',
       '.cookie-banner .cookie-btn.prefs{background:#333!important;color:#fff!important;border:1px solid #555!important;order:3;}',
-      'body.cookie-lock{overflow:hidden!important;touch-action:none!important;height:100%!important;}',
-      'body.cookie-lock > *:not(#cookieBanner):not(#waChat):not(script):not(style):not(link):not(noscript){pointer-events:none!important;user-select:none!important;}',
-      '#cookieBanner, #cookieBanner *, #waChat, #waChat *{pointer-events:auto!important;user-select:auto!important;}',
-      'body:not(.cookie-lock){overflow:auto!important;touch-action:auto!important;height:auto!important;}',
-      'body:not(.cookie-lock) > *{pointer-events:auto!important;user-select:auto!important;}',
-      '@media(max-width:600px){.cookie-banner .cookie-inner{padding:20px 16px!important;max-width:100%!important;border-radius:14px!important;}.cookie-banner .cookie-btn{font-size:.95rem!important;}}'
+      'body.cookie-lock{overflow:auto!important;touch-action:auto!important;height:auto!important;}',
+      '#cookieBanner, #cookieBanner *{pointer-events:auto!important;}',
+      '@media(min-width:700px){#cookieBanner.cookie-banner, .cookie-banner{align-items:center!important;padding:16px!important}.cookie-banner .cookie-inner{border-radius:16px!important}}',
+      '@media(max-width:600px){.cookie-banner .cookie-inner{padding:18px 14px 20px!important}.cookie-banner .cookie-btn{font-size:.98rem!important;}}'
     ].join('');
     document.head.appendChild(st);
   })();
